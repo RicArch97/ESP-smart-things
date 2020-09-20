@@ -1,6 +1,8 @@
 /*
-The wifi class for the connectivity
+  wifi.h - Provides wifi connectivity.
+  Created by Ricardo Steijn, September 16, 2020.
 */
+
 #ifndef WIFI_H
 #define WIFI_H
 

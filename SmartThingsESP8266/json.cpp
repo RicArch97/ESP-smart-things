@@ -1,5 +1,6 @@
 /*
-Convert string from the cloud to JSON for data extraction.
+  json.cpp - Convert string from the cloud to JSON for data extraction.
+  Created by Ricardo Steijn, September 19, 2020.
 */
 
 #include "json.h"

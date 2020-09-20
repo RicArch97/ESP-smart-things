@@ -1,12 +1,12 @@
 /*
-Convert string from the cloud to JSON for data extraction.
+  json.h - Convert string from the cloud to JSON for data extraction.
+  Created by Ricardo Steijn, September 17, 2020.
 */
 
 #ifndef JSON_H
 #define JSON_H
 
 #include <ArduinoJson.h>
-#include <vector>
 
 class Json {
 public:

@@ -1,24 +1,25 @@
-#include "smartThings.h"
+/*
+  SmartThingsExample.cpp - Example for the Smart Things ESP8266 library.
+  Created by Ricardo Steijn, September 20, 2020.
+*/
+
+#include <SmartThings.h>
 
 Wifi wifi;
 API api;
-//dht11 dht;
 
 // TODO
 // sensor pins
-int dht11pin = 8;
-//int servo = 9;
 
 // save your important variables here
 int weatherStationId;
 int studentId;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   // TODO
   // select a mode for your pins (input for sensors, output for actuators)
-  pinMode(dht11pin, INPUT);
-  //pinMode(servo, OUTPUT);
+  //pinMode(dht11pin, INPUT); (example)
 
   // TODO
   // connect to wifi, provide ssid name and password.
@@ -43,7 +44,7 @@ void loop() {
     double humidity = dht.humidity;
     double temperature = dht.temperature;
   */
-  double humidity, temperature;
+  double humidity = 0, temperature = 0;
   
   // post the sensordata to the server.
   // you can use a DateTime library if realistic timestaps, if you like.

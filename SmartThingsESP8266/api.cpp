@@ -1,5 +1,8 @@
 /*
-The API for the weatherstation.
+  api.cpp - User friendly methods to interact with the Smart Things REST API.
+  Created by Ricardo Steijn, September 14, 2020.
+
+  REST API was created by Bart Klomp. https://github.com/imdutch21/weatherstation-api.
 */
 
 #include "api.h"
@@ -20,7 +23,7 @@ int API::login(String studentId, String password, bool registerStudent) {
     else if (registerStudent == false)
     obj = new Json(postRequest("login", loginJson, false));
 
-    Serial.println("Login to API successful.");
+    Serial.println("Login to API completed. Watch the monitor for errors, if any.");
 
     String stringId = obj->get("StudentID");
     int id = stringId.toInt();
@@ -66,9 +69,8 @@ int API::createWeatherStation(String name, double latitude, double longitude) {
     return weatherStationId;
 }
 
-template <typename T>
-void API::postEvent(String eventType, T value) {
-    // fire an event of any eventType, with any value.
+void API::postEvent(String eventType, String value) {
+    // fire an event of any eventType, supply value in a string.
     DynamicJsonDocument doc(1024);
     doc["Event"] = eventType;
     doc["Parameter"] = value;

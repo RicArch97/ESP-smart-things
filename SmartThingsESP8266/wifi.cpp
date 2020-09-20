@@ -1,5 +1,6 @@
 /*
-The wifi class for connectivity
+  wifi.cpp - Provides wifi connectivity.
+  Created by Ricardo Steijn, September 16, 2020.
 */
 
 #include "wifi.h"
