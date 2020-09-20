@@ -18,7 +18,7 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 
 ## Arduino IDE
 
-* Go to File -> Preferences. Find "Additional Boards Manager URLs" and paste "https://arduino.esp8266.com/stable/package_esp8266com_index.json". Then go to Tools -> Board: -> Boards manager. Search for "esp8266" and install it.
+* Go to File -> Preferences. Find "Additional Boards Manager URLs" and paste `https://arduino.esp8266.com/stable/package_esp8266com_index.json`. Then go to Tools -> Board: -> Boards manager. Search for "esp8266" and install it.
 * Go to Sketch -> Include Library -> Manage Libraries. Search for "ArduinJson" and install it.
 * From this reposity, copy the "SmartThingsESP8266" folder into your Arduino library location. For Windows that will be in Documents/Arduino/libraries. For Linux that will be in ~/Arduino/libraries.
 * Head over to the "SmartThingsESP8266" folder, go to examples -> SmartThingsExample and change that extenstion on "SmartThingsExample.cpp" to "SmartThingsExample.ino".
