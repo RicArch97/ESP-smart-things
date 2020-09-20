@@ -5,14 +5,13 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 # Features
 
 * Connecting to a wifi network.
-* Interaction with the full server API using friendly methods.
+* Interaction with the full server REST API using friendly methods.
 
 # Requirements
 
 * ESP8266 development board, for example: NodeMCU ESP-12E.
 * Micro USB cable.
 * Wifi network (WPA/WPA2 secured), a mobile hotspot works too.
-* ArduinoJson library.
 
 # Usage
 
@@ -20,7 +19,7 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 
 * Go to File -> Preferences. Find "Additional Boards Manager URLs" and paste `https://arduino.esp8266.com/stable/package_esp8266com_index.json`. Then go to Tools -> Board: -> Boards manager. Search for "esp8266" and install it.
 * Go to Sketch -> Include Library -> Manage Libraries. Search for "ArduinJson" and install it.
-* From this reposity, copy the "SmartThingsESP8266" folder into your Arduino library location. For Windows that will be in Documents/Arduino/libraries. For Linux that will be in ~/Arduino/libraries.
+* From this repository, copy the "SmartThingsESP8266" folder into your Arduino library location. For Windows that will be in Documents/Arduino/libraries. For Linux that will be in ~/Arduino/libraries.
 * Head over to the "SmartThingsESP8266" folder, go to examples -> SmartThingsExample and change that extenstion on "SmartThingsExample.cpp" to "SmartThingsExample.ino".
 * In the Arduino IDE go to File -> Examples -> SmartThingsESP8266 and open "SmartThingsExample".
 
