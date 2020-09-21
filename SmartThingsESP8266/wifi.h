@@ -11,9 +11,8 @@
 class Wifi{
 public:
     void connect(const char* ssid, const char* password);
-private:
-    IPAddress ipAdress;
-    int32_t rssi;
+    IPAddress getIP();
+    int32_t getRSSI();
 };
 
 

@@ -24,7 +24,14 @@ void Wifi::connect(const char* ssid, const char* password) {
     }
     Serial.println("");
     Serial.println("Wifi connection successful.");
+}
 
-    this->ipAdress = WiFi.localIP();
-    this->rssi = WiFi.RSSI();
+IPAddress Wifi::getIP() {
+  // return the IP address of the ESP.
+  return WiFi.localIP();
+}
+
+int32_t Wifi::getRSSI() {
+  // return the RSSI (signal strength) from the ESP to the router.
+  return WiFi.RSSI();
 }
