@@ -1,6 +1,7 @@
 /*
   SmartThingsExample.cpp - Example for the Smart Things ESP8266 library.
   Created by Ricardo Steijn, September 20, 2020.
+  Last edit on September 21, 2020.
 */
 
 #include <SmartThings.h>
@@ -55,10 +56,15 @@ void loop() {
     this is optional. You can get data as array or specify the object index like so: String value = weatherData.get(2, "Value");
     when using an array, note that a pointer is required to point at the data, as it is saved in the memory. use the arrow instead of "."
     weatherData.toArray()[0]->get("Value");
+
+    weatherdata can only be retrieved after a giving data/time to prevent memory overflow.
+    choose your timestap carefully so that there's limited data returned.
+    The ESP might not be able to store the data into the memory after your response is too big.
+    to create your unix timestamp go to: https://www.unixtimestamp.com
   */
-  Json weatherData = api.getWeatherData();
+  Json weatherData = api.getWeatherData("Humidity", 1600729200);
   for (int i = 0; i < weatherData.size(); i++) {
-    Serial.println(weatherData.toArray()[i]->get("DataType"));
+    Serial.println(weatherData.toArray()[i]->get("Value"));
   }
 
   // 10s delay between uploads

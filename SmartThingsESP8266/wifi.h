@@ -10,9 +10,9 @@
 
 class Wifi{
 public:
-    void connect(const char* ssid, const char* password);
-    IPAddress getIP();
-    int32_t getRSSI();
+  void connect(const char* ssid, const char* password);
+  IPAddress getIP();
+  int32_t getRSSI();
 };
 
 

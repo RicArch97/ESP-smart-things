@@ -1,4 +1,4 @@
-Wifi	KEYWORD1
+Wifi    KEYWORD1
 API KEYWORD1
 connect	KEYWORD2
 getIP   KEYWORD2
@@ -11,8 +11,6 @@ postEvent	KEYWORD2
 login	KEYWORD2
 createWeatherStation	KEYWORD2
 postWeatherData	KEYWORD2
-getRequest	KEYWORD2
-postRequest	KEYWORD2
 getWeatherData	KEYWORD2
 getWeatherStation	KEYWORD2
 getEvents	KEYWORD2

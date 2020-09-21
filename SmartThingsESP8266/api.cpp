@@ -1,6 +1,7 @@
 /*
   api.cpp - User friendly methods to interact with the Smart Things REST API.
   Created by Ricardo Steijn, September 14, 2020.
+  Last edit on September 21, 2020.
 
   REST API was created by Bart Klomp. https://github.com/imdutch21/weatherstation-api.
 */
@@ -18,12 +19,46 @@ int API::login(String studentId, String password, bool registerStudent) {
     serializeJson(doc, loginJson);
 
     Json *obj;
-    if (registerStudent == true) 
-    obj = new Json(postRequest("register", loginJson, false));
-    else if (registerStudent == false)
-    obj = new Json(postRequest("login", loginJson, false));
-
-    Serial.println("Login to API completed. Watch the monitor for errors, if any.");
+    if (registerStudent == true) {
+        obj = new Json(postRequest("register", loginJson, false));
+        if (this->returnValue != 200) {
+            switch (this->returnValue) {
+                case -1: 
+                    Serial.println("Could not connect to the server. Check your connection and try again.");
+                    delete obj;
+                    return -1;
+                case 412: 
+                    Serial.println("Student already registered. Logging in using the same credentials...");
+                    registerStudent = false;
+                    break;
+                default: 
+                    Serial.println("Unknown error occured.");
+                    delete obj;
+                    return -1;
+            }
+        }
+    }
+    if (registerStudent == false) {
+        obj = new Json(postRequest("login", loginJson, false));
+        if (this->returnValue != 200) {
+            switch (this->returnValue) {
+                case -1: 
+                    Serial.println("Could not connect to the server. Check your connection and try again.");
+                    delete obj;
+                    return -1;
+                case 401: 
+                    Serial.println("Invalid studentID or password.");
+                    delete obj;
+                    return -1;
+                default: 
+                    Serial.println("Unknown error occured.");
+                    delete obj;
+                    return -1;
+            }
+        }
+    }
+    
+    Serial.println("Login to API successful.");
 
     String stringId = obj->get("StudentID");
     int id = stringId.toInt();
@@ -45,7 +80,13 @@ int API::postWeatherData(String dataType, double value, int timestamp, int weath
     String data;
     serializeJson(doc, data);
 
-    Json obj = Json(postRequest("weatherData", data, true));
+    String response = postRequest("weatherData", data, true);
+    if (this->returnValue != 200) {
+        raiseError();
+        return -1;
+    }
+    Json obj = Json(response);
+
     String id = obj.get("ID");
     int weatherDataId = id.toInt();
 
@@ -62,7 +103,13 @@ int API::createWeatherStation(String name, double latitude, double longitude) {
     String createStation;
     serializeJson(doc, createStation);
 
-    Json obj = Json(postRequest("weatherStation", createStation, true));
+    String response = postRequest("weatherStation", createStation, true);
+    if (this->returnValue != 200) {
+        raiseError();
+        return -1;
+    }
+    Json obj = Json(response);
+
     String id = obj.get("ID");
     int weatherStationId = id.toInt();
 
@@ -78,59 +125,65 @@ void API::postEvent(String eventType, String value) {
     serializeJson(doc, event);
 
     postRequest("event", event, true);
+    if (this->returnValue != 200) {
+        raiseError();
+    }
 }
 
 Json API::getEvents(int weatherStationId) {
     // return all events for a weatherstation.
-    return Json(getRequest("event/"+weatherStationId, true));
+    String response = getRequest("event/"+weatherStationId, true);
+    if (this->returnValue != 200) {
+        raiseError();
+        return Json();
+    }
+    return Json(response);
 }
 
-Json API::getWeatherData() {
-    // return all data.
-    return Json(getRequest("weatherData", false));
-}
-
-Json API::getWeatherData(String dataType) {
-    // return data for a certain datatype.
-    return Json(getRequest("weatherData?DataType="+dataType, false));
-}
-
-Json API::getWeatherData(String dataType, int dateTime) {
-    // return data for a certain dataType, before a certain date/time.
-    return Json(getRequest("weatherData?DataType="+dataType+"&BeforeDateTime"+String(dateTime), false));
+Json API::getWeatherData(String dataType, int afterDateTime) {
+    // return data for a certain dataType, after a certain date/time.
+    String response = getRequest("weatherData?DataType="+dataType+"&AfterDateTime"+String(afterDateTime), false);
+    if (this->returnValue != 200) {
+        raiseError();
+        return Json();
+    }
+    return Json(response);
 }
 
 Json API::getWeatherData(String dataType, int beforeDateTime, int afterDateTime) {
     // return data for a certain dataType, before and after a certain date/time.
-    return Json(getRequest("weatherData?DataType="+dataType+"&BeforeDateTime="+String(beforeDateTime)+"&AfterDateTime="+String(afterDateTime), false));
+    String response = getRequest("weatherData?DataType="+dataType+"&BeforeDateTime="+String(beforeDateTime)+"&AfterDateTime="+String(afterDateTime), false);
+    if (this->returnValue != 200) {
+        raiseError();
+        return Json();
+    }
+    return Json(response);
 }
 
 Json API::getWeatherStation(int weatherStationId) {
     // get the data for a specific weatherstation.
-    return Json(getRequest("weatherStation/"+String(weatherStationId), false));
+    String response = getRequest("weatherStation/"+String(weatherStationId), false);
+    if (this->returnValue != 200) {
+        raiseError();
+        return Json();
+    }
+    return Json(response);
 }
 
-String API::getRequest(String endpoint, bool auth=false) {
+String API::getRequest(String endpoint, bool auth) {
     // perform a GET request to the API.
     http.begin(this->client, apiAddress + endpoint);
     http.addHeader("Content-Type", "application/json");
     if (auth == true) http.addHeader("access-key", this->key);
 
-    int returnValue = http.GET();
-    if (returnValue != 200) {
-        switch (returnValue) {
-            case 401: Serial.println("Authentication error");
-            break;
-            case 404: Serial.println("No data found");
-            break;
-            case 412: Serial.println("Invalid arguments for request");
-            break;
-            default: Serial.println("Unknown error occured. Try again.");
-            break;
-        }
-    }
+    this-> returnValue = http.GET();
     String response = http.getString();
     http.end();
+
+    Serial.print("Return value: ");
+    Serial.println(this->returnValue);
+    Serial.print("Response: ");
+    Serial.println(response);
 
     return response;
 }
@@ -141,21 +194,35 @@ String API::postRequest(String endpoint, String json, bool auth) {
     http.addHeader("Content-Type", "application/json");
     if (auth == true) http.addHeader("access-key", this->key);
 
-    int returnValue = http.POST(json);
-    if (returnValue != 200) {
-        switch (returnValue) {
-            case 401: Serial.println("Authentication error");
-            break;
-            case 404: Serial.println("No data found");
-            break;
-            case 412: Serial.println("Invalid arguments for request");
-            break;
-            default: Serial.println("Unknown error occured. Try again.");
-            break;
-        }
-    }
+    this->returnValue = http.POST(json);
     String response = http.getString();
     http.end();
 
+    Serial.print("Return value: ");
+    Serial.println(this->returnValue);
+    Serial.print("Response: ");
+    Serial.println(response);
+
     return response;
+}
+
+void API::raiseError() {
+    // check returnvalue and print error messages
+    switch (this->returnValue) {
+        case -1: 
+            Serial.println("Could not connect to the server. Check your connection and try again.");
+            break;
+        case 401:
+            Serial.println("No access key available. Use api.login() to login.");
+            break;
+        case 404:
+            Serial.println("Requested data was not found in the database.");
+            break;
+        case 412: 
+            Serial.println("Some of the provided arguments are incorrect.");
+            break;
+        default: 
+            Serial.println("Unknown error occured.");
+            break;
+    }
 }
