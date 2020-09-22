@@ -41,7 +41,7 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 > Create a new weatherstation for current user. To know the latitude and longitude of your location, go to `https://www.latlong.net`. This function returns the weatherStationId of the new weatherstation.
 
 #### int postWeatherData(String dataType, double value, int timestamp, int weatherStationId)
-> Post new sensor data to the API. Valid types are: `Humidity` (percentage between 0 and 1), `WindSpeed` (value in m/s greater than or equal to 0), `WindDirection` (value in degrees between 0 and 360, with 0 being north), `Temperature` (value in degrees celsius). This function returns the weatherDataId of the data.
+> Post new sensor data to the API. Valid Data types are: `Humidity` (percentage between 0 and 1), `WindSpeed` (value in m/s greater than or equal to 0), `WindDirection` (value in degrees between 0 and 360, with 0 being north), `Temperature` (value in degrees celsius). The timestamp is Unix. To calcalate this number, you could use an `RTC module` or try to use an existing library for this. This function returns the weatherDataId of the data.
 
 #### void postEvent(String eventType, String value)
 > Post an event of any kind. The value is provided as string, but can be of any type (e.g. "0.00348").
