@@ -180,11 +180,6 @@ String API::getRequest(String endpoint, bool auth) {
     String response = http.getString();
     http.end();
 
-    Serial.print("Return value: ");
-    Serial.println(this->returnValue);
-    Serial.print("Response: ");
-    Serial.println(response);
-
     return response;
 }
 
@@ -197,11 +192,6 @@ String API::postRequest(String endpoint, String json, bool auth) {
     this->returnValue = http.POST(json);
     String response = http.getString();
     http.end();
-
-    Serial.print("Return value: ");
-    Serial.println(this->returnValue);
-    Serial.print("Response: ");
-    Serial.println(response);
 
     return response;
 }

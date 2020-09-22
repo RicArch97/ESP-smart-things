@@ -18,7 +18,7 @@ public:
   int login(String studentId, String password, bool registerStudent);
   int createWeatherStation(String name, double latitude, double longitude);
   int postWeatherData(String dataType, double value, int timestamp, int weatherStationId); 
-  Json getWeatherData(String dataType, int afterDataTime);
+  Json getWeatherData(String dataType, int afterDateTime);
   Json getWeatherData(String dataType, int beforeDateTime, int afterDateTime);
   Json getWeatherStation(int weatherStationId);
   Json getEvents(int weatherStationId);

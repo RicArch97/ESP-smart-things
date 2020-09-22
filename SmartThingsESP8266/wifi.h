@@ -11,7 +11,7 @@
 class Wifi{
 public:
   void connect(const char* ssid, const char* password);
-  IPAddress getIP();
+  String getIP();
   int32_t getRSSI();
 };
 
