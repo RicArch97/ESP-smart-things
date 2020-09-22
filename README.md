@@ -63,7 +63,7 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 Json objects are returned from `get` functions from the api class.
 
 #### String get(String key)
-> Get a value from the Json object for a key. (e.g. `weatherStation.get("Latitude")`). This function return a String with the value.
+> Get a value from the Json object for a key. (e.g. `weatherStation.get("Latitude")`). This function returns a String with the value.
 
 #### String get(int object, String key)
 > Get a value from an array of Json objects, like the weatherData. `object` is the array index. (e.g. `weatherData.get(0, "Value")`) returns the value for the first object in the array). The function returns a string with the value.
