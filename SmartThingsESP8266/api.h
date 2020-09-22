@@ -1,7 +1,7 @@
 /*
   api.h - User friendly methods to interact with the Smart Things REST API.
   Created by Ricardo Steijn, September 14, 2020.
-  Last edit on September 21, 2020.
+  Last edit on September 22, 2020.
 
   REST API was created by Bart Klomp. https://github.com/imdutch21/weatherstation-api.
 */
@@ -14,10 +14,10 @@
 
 class API {
 public: 
-  void postEvent(String eventType, String value);
+  void postEvent(String eventType, String value, int weatherStationId);
   int login(String studentId, String password, bool registerStudent);
   int createWeatherStation(String name, double latitude, double longitude);
-  int postWeatherData(String dataType, double value, int timestamp, int weatherStationId); 
+  int postWeatherData(String dataType, double value, int weatherStationId); 
   Json getWeatherData(String dataType, int afterDateTime);
   Json getWeatherData(String dataType, int beforeDateTime, int afterDateTime);
   Json getWeatherStation(int weatherStationId);

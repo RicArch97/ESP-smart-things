@@ -1,7 +1,7 @@
 /*
   api.cpp - User friendly methods to interact with the Smart Things REST API.
   Created by Ricardo Steijn, September 14, 2020.
-  Last edit on September 21, 2020.
+  Last edit on September 22, 2020.
 
   REST API was created by Bart Klomp. https://github.com/imdutch21/weatherstation-api.
 */
@@ -69,13 +69,12 @@ int API::login(String studentId, String password, bool registerStudent) {
     return id;
 }
 
-int API::postWeatherData(String dataType, double value, int timestamp, int weatherStationId) {
+int API::postWeatherData(String dataType, double value, int weatherStationId) {
     // post weather data to the cloud, obtained from a sensor.
     // returns weatherDataId.
     DynamicJsonDocument doc(1024);
     doc["DataType"] = dataType;
     doc["Value"] = value;
-    doc["Timestamp"] = timestamp;
     doc["WeatherStationID"] = weatherStationId;
     String data;
     serializeJson(doc, data);
@@ -116,11 +115,12 @@ int API::createWeatherStation(String name, double latitude, double longitude) {
     return weatherStationId;
 }
 
-void API::postEvent(String eventType, String value) {
+void API::postEvent(String eventType, String value, int weatherStationId) {
     // fire an event of any eventType, supply value in a string.
     DynamicJsonDocument doc(1024);
     doc["Event"] = eventType;
     doc["Parameter"] = value;
+    doc["WeatherStationID"] = weatherStationId;
     String event;
     serializeJson(doc, event);
 
@@ -132,7 +132,7 @@ void API::postEvent(String eventType, String value) {
 
 Json API::getEvents(int weatherStationId) {
     // return all events for a weatherstation.
-    String response = getRequest("event/"+weatherStationId, true);
+    String response = getRequest("event/"+String(weatherStationId), true);
     if (this->returnValue != 200) {
         raiseError();
         return Json();
@@ -142,7 +142,7 @@ Json API::getEvents(int weatherStationId) {
 
 Json API::getWeatherData(String dataType, int afterDateTime) {
     // return data for a certain dataType, after a certain date/time.
-    String response = getRequest("weatherData?DataType="+dataType+"&AfterDateTime"+String(afterDateTime), false);
+    String response = getRequest("weatherData?DataType="+dataType+"&AfterDateTime="+String(afterDateTime), false);
     if (this->returnValue != 200) {
         raiseError();
         return Json();

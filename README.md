@@ -40,14 +40,14 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 #### int createWeatherStation(String name, double latitude, double longitude)
 > Create a new weatherstation for current user. To know the latitude and longitude of your location, go to `https://www.latlong.net`. This function returns the weatherStationId of the new weatherstation.
 
-#### int postWeatherData(String dataType, double value, int timestamp, int weatherStationId)
-> Post new sensor data to the API. Valid Data types are: `Humidity` (percentage between 0 and 1), `WindSpeed` (value in m/s greater than or equal to 0), `WindDirection` (value in degrees between 0 and 360, with 0 being north), `Temperature` (value in degrees celsius). The timestamp is Unix. To calcalate this number, you could use an `RTC module` or try to use an existing library for this. This function returns the weatherDataId of the data.
+#### int postWeatherData(String dataType, double value, int weatherStationId)
+> Post new sensor data to the API. Valid Data types are: `Humidity` (percentage between 0 and 1), `WindSpeed` (value in m/s greater than or equal to 0), `WindDirection` (value in degrees between 0 and 360, with 0 being north), `Temperature` (value in degrees celsius). This function returns the weatherDataId of the data.
 
-#### void postEvent(String eventType, String value)
+#### void postEvent(String eventType, String value, int weatherStationId)
 > Post an event of any kind. The value is provided as string, but can be of any type (e.g. "0.00348").
 
 #### Json getWeatherData(String dataType, int afterDateTime)
-> Get weatherdata that has been posted after a certain data/time. The timestamp is Unix and can be retrieved from `https://www.unixtimestamp.com`. Note that if there is too much data from the period of time, the ESP8266 board might not be able to save it in memory and throw a stack overflow. Use with care. This function return a Json object holding the data.
+> Get weatherdata that has been posted after a certain data/time. The timestamp is Unix and can be retrieved from `https://www.unixtimestamp.com`. Note that if there is too much data from the period of time, the ESP8266 board might not be able to save it in memory and throw a stack overflow. Use with care. This function returns a Json object holding the data.
 
 #### Json getWeatherData(String dataType, int beforeDateTime, int afterDateTime)
 > Get weatherdata that has been posted before a certain date/time and after a certain date/time. Note that if there is too much data from the period of time, the ESP8266 board might not be able to save it in memory and throw a stack overflow. Use with care. This function returns a Json object holding the data.
@@ -81,5 +81,32 @@ Json objects are returned from `get` functions from the api class.
 
 #### int32_t getRSSI()
 > Returns the RSSI (signal strength from device to router).
+
+## Timer
+
+#### Timer(unsigned long milliseconds)
+> Create a new timer. Provide the time in milliseconds.
+
+#### void start()
+> Start the timer.
+
+#### void stop()
+> Stop the timer. This function will print the ellapsed time on the serial monitor.
+
+#### void restart()
+> Restart the timer. Can be called when a timer is not finished yet, or when the timer is done.
+
+#### void set(unsigned long milliseconds)
+> Set a new time for your timer.
+
+#### void waitFor()
+> Block the processor until the timer has finished. This function is similar to delay().
+
+#### bool done()
+> Check if the timer has finished. Can be used in an if statement, to execute code only after the timer has finished. This function return true when the timer has finished, and false if it's not finished.
+
+#### unsigned long getEllapsedTime()
+> Get the ellapsed time of the timer.
+
 
 For questions or bugs, message me :)

@@ -9,5 +9,6 @@
 #include <Arduino.h>
 #include "api.h"
 #include "wifi.h"
+#include "timer.h"
 
 #endif

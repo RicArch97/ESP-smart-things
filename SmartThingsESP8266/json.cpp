@@ -1,7 +1,7 @@
 /*
   json.cpp - Convert string from the cloud to JSON for data extraction.
   Created by Ricardo Steijn, September 19, 2020.
-  Last edit on September 21, 2020.
+  Last edit on September 22, 2020.
 */
 
 #include "json.h"
@@ -13,6 +13,10 @@ Json::Json(String jsonString) {
 
     // String contains a list of json.
     if (jsonString[0] == '[') {
+        // empty array
+        if (jsonString[1] == ']') {
+            return;
+        }
         int keys = 0;
         int objects = 0;
         for (unsigned int i = 0; i < jsonString.length(); i++) {
