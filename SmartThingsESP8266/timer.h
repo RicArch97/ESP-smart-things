@@ -17,7 +17,7 @@ public:
     void set(unsigned long milliseconds);
     void waitFor();
     bool done();
-    unsigned long getEllapsedTime();
+    unsigned long getElapsedTime();
 private:
     unsigned long timeToEllapse;
     unsigned long startTime;

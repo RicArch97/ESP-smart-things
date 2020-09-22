@@ -22,7 +22,7 @@ void Timer::stop() {
 
     Serial.print("Timer stopped. ");
     Serial.print("Time ellapsed until stop: ");
-    Serial.println(this->getEllapsedTime());
+    Serial.println(this->getElapsedTime());
 }
 
 void Timer::restart() {
@@ -50,7 +50,7 @@ bool Timer::done() {
     return false;
 }
 
-unsigned long Timer::getEllapsedTime() {
+unsigned long Timer::getElapsedTime() {
     // get the ellapsed time for the timer.
     return millis() - this->startTime;
 }

@@ -103,10 +103,10 @@ Json objects are returned from `get` functions from the api class.
 > Block the processor until the timer has finished. This function is similar to delay().
 
 #### bool done()
-> Check if the timer has finished. Can be used in an if statement, to execute code only after the timer has finished. This function return true when the timer has finished, and false if it's not finished.
+> Check if the timer has finished. Can be used in an if statement, to execute code only after the timer has finished. This function returns true when the timer has finished, and false if it's not finished.
 
-#### unsigned long getEllapsedTime()
-> Get the ellapsed time of the timer.
+#### unsigned long getElapsedTime()
+> Get the elapsed time of the timer.
 
 
 For questions or bugs, message me :)
