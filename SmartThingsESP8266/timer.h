@@ -19,7 +19,7 @@ public:
     bool done();
     unsigned long getElapsedTime();
 private:
-    unsigned long timeToEllapse;
+    unsigned long timeToElapse;
     unsigned long startTime;
     bool isStarted;
 };

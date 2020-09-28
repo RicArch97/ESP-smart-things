@@ -7,7 +7,7 @@
 
 Timer::Timer(unsigned long milliseconds) {
     // Create a new timer.
-    this->timeToEllapse = milliseconds;
+    this->timeToElapse = milliseconds;
 }
 
 void Timer::start() {
@@ -33,7 +33,7 @@ void Timer::restart() {
 
 void Timer::set(unsigned long milliseconds) {
     // set a new time for the timer.
-    this->timeToEllapse = milliseconds;
+    this->timeToElapse = milliseconds;
 }
 
 void Timer::waitFor() {
@@ -44,7 +44,7 @@ void Timer::waitFor() {
 bool Timer::done() {
     // return if the timer is done.
     if (!(this->isStarted)) return false;
-    if ((millis() - this->startTime) >= this->timeToEllapse) {
+    if ((millis() - this->startTime) >= this->timeToElapse) {
         return true;
     }
     return false;

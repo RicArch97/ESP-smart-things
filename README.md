@@ -46,17 +46,23 @@ This is a library for the minor "Smart Things" of Hogeschool Rotterdam.
 #### void postEvent(String eventType, String value, int weatherStationId)
 > Post an event of any kind. The value is provided as string, but can be of any type (e.g. "0.00348").
 
+#### Json getWeatherData()
+> Get all weatherData. Note that This function returns the **latest 30** data objects in a Json object holding the data.
+
+#### Json getWeatherData(String dataType)
+> Get weatherData for a certain dataType (Humidity, Temperature, WindSpeed, WindDirection). This function returns the **latest 30** data objects in a Json object holding the data.
+
 #### Json getWeatherData(String dataType, int afterDateTime)
-> Get weatherdata that has been posted after a certain data/time. The timestamp is Unix and can be retrieved from `https://www.unixtimestamp.com`. Note that if there is too much data from the period of time, the ESP8266 board might not be able to save it in memory and throw a stack overflow. Use with care. This function returns a Json object holding the data.
+> Get weatherdata that has been posted after a certain data/time. The timestamp is Unix and can be retrieved from `https://www.unixtimestamp.com`. This function returns the **latest 30** data objects in a Json object holding the data.
 
 #### Json getWeatherData(String dataType, int beforeDateTime, int afterDateTime)
-> Get weatherdata that has been posted before a certain date/time and after a certain date/time. Note that if there is too much data from the period of time, the ESP8266 board might not be able to save it in memory and throw a stack overflow. Use with care. This function returns a Json object holding the data.
+> Get weatherdata that has been posted before a certain date/time and after a certain date/time. This function returns the **latest 30** data objects in a Json object holding the data.
 
 #### Json getWeatherStation(int weatherStationId)
 > Get the data for a specific weatherStation. This will return the name, latitude and longitude of the station.
 
 #### Json getEvents(int weatherStationId)
-> Get all events that were posted for this specific weatherStation. Can be useful when working with multiple stations. Note that if there are too many events saved in the cloud, the ESP8266 board might not be able to save it in memory and throw a stack overflow. Use with care. Events are removed from the cloud once this function is called. This function returns a Json object holding the data. 
+> Get all events that were posted for this specific weatherStation. Can be useful when working with multiple stations. Events are removed from the cloud once this function is called. This function returns the **latest 30** events in a Json object holding the data. 
 
 ## Json
 
@@ -69,7 +75,7 @@ Json objects are returned from `get` functions from the api class.
 > Get a value from an array of Json objects, like the weatherData. `object` is the array index. (e.g. `weatherData.get(0, "Value")`) returns the value for the first object in the array). The function returns a string with the value.
 
 #### Json** toArray()
-> When multiple data is returned, it can be converted into an array to loop through all the data. Note that this function stores the data into the memory, until the Json object destructed. If there's too much data, it can cause a stack overflow, use with care. This function returns a pointer that points at multiple objects in memory. Because a pointer is returned use like this: (e.g. `weatherData.toArray()[0]->get("Value")`) or iterate over it using a loop.
+> When multiple data is returned, it can be converted into an array to loop through all the data. This function returns a pointer that points at multiple objects in memory. Because a pointer is returned use like this: (e.g. `weatherData.toArray()[0]->get("Value")`) or iterate over it using a loop.
 
 ## Wifi
 

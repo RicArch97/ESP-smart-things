@@ -1,7 +1,7 @@
 /*
   api.cpp - User friendly methods to interact with the Smart Things REST API.
   Created by Ricardo Steijn, September 14, 2020.
-  Last edit on September 22, 2020.
+  Last edit on September 28, 2020.
 
   REST API was created by Bart Klomp. https://github.com/imdutch21/weatherstation-api.
 */
@@ -60,7 +60,7 @@ int API::login(String studentId, String password, bool registerStudent) {
     
     Serial.println("Login to API successful.");
 
-    String stringId = obj->get("StudentID");
+    String stringId = obj->get("ID");
     int id = stringId.toInt();
     this->key = obj->get("Key");
     // free allocated memory
@@ -132,7 +132,27 @@ void API::postEvent(String eventType, String value, int weatherStationId) {
 
 Json API::getEvents(int weatherStationId) {
     // return all events for a weatherstation.
-    String response = getRequest("event/"+String(weatherStationId), true);
+    String response = getRequest("event/"+String(weatherStationId)+"?Limit=30", true);
+    if (this->returnValue != 200) {
+        raiseError();
+        return Json();
+    }
+    return Json(response);
+}
+
+Json API::getWeatherData() {
+    // return all data.
+    String response = getRequest("weatherData?Limit=30", false);
+    if (this->returnValue != 200) {
+        raiseError();
+        return Json();
+    }
+    return Json(response);
+}
+
+Json API::getWeatherData(String dataType) {
+    // return data for a certain datatype.
+    String response = getRequest("weatherData?DataType="+dataType+"&Limit=30", false);
     if (this->returnValue != 200) {
         raiseError();
         return Json();
@@ -142,7 +162,7 @@ Json API::getEvents(int weatherStationId) {
 
 Json API::getWeatherData(String dataType, int afterDateTime) {
     // return data for a certain dataType, after a certain date/time.
-    String response = getRequest("weatherData?DataType="+dataType+"&AfterDateTime="+String(afterDateTime), false);
+    String response = getRequest("weatherData?DataType="+dataType+"&AfterDateTime="+String(afterDateTime)+"&Limit=30", false);
     if (this->returnValue != 200) {
         raiseError();
         return Json();
@@ -152,7 +172,7 @@ Json API::getWeatherData(String dataType, int afterDateTime) {
 
 Json API::getWeatherData(String dataType, int beforeDateTime, int afterDateTime) {
     // return data for a certain dataType, before and after a certain date/time.
-    String response = getRequest("weatherData?DataType="+dataType+"&BeforeDateTime="+String(beforeDateTime)+"&AfterDateTime="+String(afterDateTime), false);
+    String response = getRequest("weatherData?DataType="+dataType+"&BeforeDateTime="+String(beforeDateTime)+"&AfterDateTime="+String(afterDateTime)+"&Limit=30", false);
     if (this->returnValue != 200) {
         raiseError();
         return Json();
