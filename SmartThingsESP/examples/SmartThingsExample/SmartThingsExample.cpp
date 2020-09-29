@@ -1,7 +1,7 @@
 /*
-  SmartThingsExample.cpp - Example for the Smart Things ESP8266 library.
+  SmartThingsExample.cpp - Example for the Smart Things ESP library.
   Created by Ricardo Steijn, September 20, 2020.
-  Last edit on September 28, 2020.
+  Last edit on September 29, 2020.
 */
 
 #include <SmartThings.h>

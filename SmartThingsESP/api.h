@@ -1,7 +1,7 @@
 /*
   api.h - User friendly methods to interact with the Smart Things REST API.
   Created by Ricardo Steijn, September 14, 2020.
-  Last edit on September 28, 2020.
+  Last edit on September 29, 2020.
 
   REST API was created by Bart Klomp. https://github.com/imdutch21/weatherstation-api.
 */
@@ -9,7 +9,14 @@
 #ifndef API_H
 #define API_H
 
+#ifdef ESP8266
 #include <ESP8266HTTPClient.h>
+#endif
+
+#ifdef ESP32
+#include <HTTPClient.h>
+#endif
+
 #include "json.h"
 
 class API {

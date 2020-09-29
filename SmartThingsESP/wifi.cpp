@@ -1,15 +1,14 @@
 /*
   wifi.cpp - Provides wifi connectivity.
-  Created by Ricardo Steijn, September 16, 2020.
+  Created by Ricardo Steijn, September 29, 2020.
 */
 
 #include "wifi.h"
 
 void Wifi::connect(const char* ssid, const char* password) {
-    // set modes
-    WiFi.mode(WIFI_OFF);
-    delay(1000);
+    // set mode
     WiFi.mode(WIFI_STA);
+    delay(1000);
 
     // connect to the router
     WiFi.begin(ssid, password);
